@@ -7,11 +7,25 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                sans: [
+                    'Inter',
+                    'Noto Sans SC',
+                    'PingFang SC',
+                    'Hiragino Sans GB',
+                    'Microsoft YaHei',
+                    'sans-serif',
+                    ...defaultTheme.fontFamily.sans
+                ],
                 serif: ['Merriweather', ...defaultTheme.fontFamily.serif],
                 mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
-                // Promote Mono for headings for that dev feel
-                heading: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
+                // Promote Mono for headings for that dev feel, but with CN support
+                heading: [
+                    'JetBrains Mono',
+                    'Noto Sans SC',
+                    'PingFang SC',
+                    'Microsoft YaHei',
+                    ...defaultTheme.fontFamily.mono
+                ],
             },
             colors: {
                 primary: defaultTheme.colors.indigo,

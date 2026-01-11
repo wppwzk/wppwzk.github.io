@@ -52,11 +52,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
         <!-- Dark Mode Script -->
         <script is:inline>
-            // On page load or when changing themes, best to add inline in `head` to avoid FOUC
             const getTheme = () => {
                 if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
                     return localStorage.getItem('theme');
                 }
+                
+                // Automatic theme based on system time (7 PM - 6 AM is dark)
+                const hour = new Date().getHours();
+                if (hour >= 19 || hour < 6) {
+                    return 'dark';
+                }
+
                 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     return 'dark';
                 }
@@ -69,12 +75,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                 } else {
                     document.documentElement.classList.remove('dark');
                 }
-                localStorage.setItem('theme', theme);
+                // We don't necessarily want to force save the auto-theme to localStorage immediately
+                // to allow it to change if the user doesn't manually override it.
             };
 
             setTheme(getTheme());
 
-            // Handle View Transitions
             document.addEventListener('astro:after-swap', () => setTheme(getTheme()));
         </script>
 	</head>
