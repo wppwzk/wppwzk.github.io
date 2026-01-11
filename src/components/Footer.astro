@@ -1,0 +1,13 @@
+---
+const today = new Date();
+---
+
+<footer class="mt-20 border-t border-zinc-200 dark:border-zinc-800 py-10 bg-white dark:bg-zinc-950">
+	<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-zinc-500 dark:text-zinc-400">
+		&copy; {today.getFullYear()} My Technical Blog. All rights reserved.
+        <div class="mt-4 flex justify-center gap-4">
+            <a href="https://github.com/username" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">GitHub</a>
+            <a href="/my-blog/rss.xml" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">RSS</a>
+        </div>
+	</div>
+</footer>

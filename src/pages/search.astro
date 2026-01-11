@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SearchComponent from '../components/Search';
+---
+
+<Layout title="搜索 | My Technical Blog" description="搜索博客文章">
+    <div class="py-12">
+        <h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white text-center mb-8">Search</h1>
+        <SearchComponent client:load />
+    </div>
+</Layout>

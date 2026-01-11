@@ -1,0 +1,28 @@
+---
+import { Github } from 'lucide-astro';
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<header class="border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50">
+	<nav class="group flex items-center justify-between mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4">
+		<a href="/my-blog/" class="text-xl font-bold tracking-tight text-zinc-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+			My<span class="text-indigo-600 dark:text-indigo-400">Blog</span>
+		</a>
+		<div class="flex items-center gap-6">
+			<div class="hidden sm:flex gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+				<a href="/my-blog/blog" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">文章</a>
+                <a href="/my-blog/tags" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">分类</a>
+				<a href="/my-blog/about" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">关于</a>
+                <a href="/my-blog/search" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">搜索</a>
+			</div>
+            <div class="flex items-center gap-4">
+                 <a href="https://github.com/username" target="_blank" class="text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors">
+                    <span class="sr-only">GitHub</span>
+                     <!-- SVG icon inline if lucide-astro not worked or simple svg -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 6 3 6 5 5.5.05-1.3.5-2.5 1-3.5-2.6-.6-4.6-1.5-4.6-4.6 0-1 .4-2 .9-2.5-.2-.5-.5-2 .5-2.5.9 0 2 .4 2.5.9.9-.1 1.9-.1 2.8 0 .5-.5 1.6-.9 2.5-.9 1 .5 1.3 2 1.3 2.5.5.5.9 1.5.9 2.5 0 3.1-2 4-4.6 4.6.5.5 1 1.3 1 2.2v2.8"/></svg>
+                 </a>
+			    <ThemeToggle />
+            </div>
+		</div>
+	</nav>
+</header>
