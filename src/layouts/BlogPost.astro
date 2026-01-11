@@ -10,31 +10,31 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 ---
 
 <Layout title={title} description={description} image={heroImage}>
-	<article class="prose prose-zinc dark:prose-invert mx-auto lg:prose-lg max-w-3xl">
-		<div class="mb-8 text-center">
-            <div class="mb-4 text-zinc-500 dark:text-zinc-400 text-sm">
+	<article class="prose prose-zinc dark:prose-invert mx-auto lg:prose-lg max-w-3xl prose-headings:font-heading prose-code:font-mono prose-pre:border prose-pre:border-zinc-200 dark:prose-pre:border-zinc-800 prose-pre:rounded-xl">
+		<div class="mb-8 text-center animate-fade-in">
+            <div class="mb-4 flex justify-center items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm font-mono">
                 <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
                 {
                     updatedDate && (
                         <div class="italic">
-                            Updated on <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time>
+                            (Updated: <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time>)
                         </div>
                     )
                 }
             </div>
-            <h1 class="text-4xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-5xl mb-4">{title}</h1>
-            {heroImage && <img width={1020} height={510} src={heroImage} alt="" class="rounded-xl shadow-lg mb-8" />}
+            <h1 class="text-4xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-5xl mb-6 font-heading">{title}</h1>
+            {heroImage && <img width={1020} height={510} src={heroImage} alt="" class="rounded-2xl shadow-2xl border border-zinc-200 dark:border-zinc-800 mb-8" />}
             
             <div class="flex flex-wrap gap-2 justify-center mt-4">
                 {tags.map((tag) => (
-                    <a href={`/my-blog/tags/${tag}`} class="inline-flex items-center rounded-full bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:bg-indigo-100 dark:bg-indigo-400/10 dark:text-indigo-400 dark:ring-indigo-400/30 transition-colors">
+                    <a href={`/my-blog/tags/${tag}`} class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-mono font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 hover:bg-indigo-100 dark:bg-indigo-400/10 dark:text-indigo-400 dark:ring-indigo-400/30 transition-colors">
                         #{tag}
                     </a>
                 ))}
             </div>
 		</div>
-        <hr class="my-8 border-zinc-200 dark:border-zinc-800" />
-		<div class="content">
+        <hr class="my-10 border-zinc-200 dark:border-zinc-800" />
+		<div class="content animate-fade-in" style="animation-delay: 150ms;">
 			<slot />
 		</div>
 	</article>

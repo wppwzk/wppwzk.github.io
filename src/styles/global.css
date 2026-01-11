@@ -11,7 +11,14 @@
 @layer base {
   :root {
     --color-bg-primary: #ffffff;
-    --color-text-primary: #18181b; /* zinc-900 */
+    --color-text-primary: #18181b;
+    /* zinc-900 */
+
+    /* Dot Grid Pattern */
+    --dot-bg: #ffffff;
+    --dot-color: #e4e4e7;
+    --dot-size: 1px;
+    --dot-space: 20px;
   }
 
   /* Smooth scrolling */
@@ -21,5 +28,17 @@
 
   body {
     @apply bg-zinc-50 text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100;
+  }
+
+  .dark {
+    --dot-bg: #09090b;
+    /* zinc-950 */
+    --dot-color: #27272a;
+    /* zinc-800 */
+  }
+
+  .bg-dot-pattern {
+    background-image: radial-gradient(var(--dot-color) var(--dot-size), transparent var(--dot-size));
+    background-size: var(--dot-space) var(--dot-space);
   }
 }

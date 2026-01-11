@@ -1,0 +1,124 @@
+---
+---
+<canvas id="mesh-gradient" class="fixed inset-0 z-[-2] pointer-events-none"></canvas>
+
+<script>
+  function initMeshGradient() {
+    const canvas = document.getElementById('mesh-gradient') as HTMLCanvasElement;
+    if (!canvas) {
+      console.error('Canvas not found');
+      return;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      console.error('Context not found');
+      return;
+    }
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let animationId: number;
+
+    // Resize canvas to fill window
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Track mouse position with smooth interpolation
+    const handleMouseMove = (e: MouseEvent) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+    };
+    document.addEventListener('mousemove', handleMouseMove);
+
+    // Animate
+    function animate() {
+      // Smooth mouse following
+      mouseX += (targetX - mouseX) * 0.1;
+      mouseY += (targetY - mouseY) * 0.1;
+
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Create gradient based on mouse position
+      const gradient = ctx.createRadialGradient(
+        mouseX, mouseY, 0,
+        mouseX, mouseY, canvas.width * 0.6
+      );
+
+      // Check if dark mode
+      const isDark = document.documentElement.classList.contains('dark');
+      
+      if (isDark) {
+        // Dark mode: VERY VISIBLE Nordic Aurora
+        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.35)');      // sky-400 (ice blue) - MUCH BRIGHTER
+        gradient.addColorStop(0.3, 'rgba(20, 184, 166, 0.25)');    // teal-500 (aurora teal)
+        gradient.addColorStop(0.6, 'rgba(52, 211, 153, 0.18)');    // emerald-400 (mint)
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      } else {
+        // Light mode: VERY VISIBLE Nordic Aurora
+        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.28)');      // sky-400 - MUCH BRIGHTER
+        gradient.addColorStop(0.3, 'rgba(20, 184, 166, 0.20)');    // teal-500
+        gradient.addColorStop(0.6, 'rgba(52, 211, 153, 0.14)');    // emerald-400
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      }
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      animationId = requestAnimationFrame(animate);
+    }
+
+    // Log to confirm it's working
+    console.log('Mesh gradient initialized at', new Date().toLocaleTimeString());
+    animate();
+
+    // Handle theme changes
+    const observer = new MutationObserver(() => {
+      // Animation will pick up the change automatically
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    // Cleanup function
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', resizeCanvas);
+      document.removeEventListener('mousemove', handleMouseMove);
+      observer.disconnect();
+    };
+  }
+
+  // Initialize on first load
+  initMeshGradient();
+
+  // Reinitialize on View Transitions navigation
+  document.addEventListener('astro:page-load', () => {
+    console.log('Page loaded, reinitializing mesh gradient');
+    initMeshGradient();
+  });
+</script>
+
+<style>
+  #mesh-gradient {
+    opacity: 0;
+    animation: fadeInCanvas 0.5s ease-in forwards;
+  }
+
+  @keyframes fadeInCanvas {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #mesh-gradient {
+      display: none;
+    }
+  }
+</style>

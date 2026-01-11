@@ -1,0 +1,48 @@
+---
+---
+<div id="mouse-spotlight" class="pointer-events-none fixed inset-0 z-30 transition duration-300"></div>
+
+<script>
+  const spotlight = document.getElementById('mouse-spotlight');
+  
+  const updateSpotlight = (e: MouseEvent) => {
+    if (!spotlight) return;
+    
+    const x = e.clientX;
+    const y = e.clientY;
+    
+    // Much brighter and larger spotlight
+    spotlight.style.background = `radial-gradient(800px circle at ${x}px ${y}px, rgba(99, 102, 241, 0.25), rgba(168, 85, 247, 0.15) 30%, transparent 60%)`;
+    spotlight.style.opacity = '1';
+  };
+
+  const hideSpotlight = () => {
+    if (!spotlight) return;
+    spotlight.style.opacity = '0';
+  };
+
+  document.addEventListener('mousemove', updateSpotlight);
+  document.addEventListener('mouseleave', hideSpotlight);
+
+  // Handle View Transitions
+  document.addEventListener('astro:page-load', () => {
+    const spot = document.getElementById('mouse-spotlight');
+    if (spot) {
+      document.addEventListener('mousemove', updateSpotlight);
+      document.addEventListener('mouseleave', hideSpotlight);
+    }
+  });
+</script>
+
+<style>
+  #mouse-spotlight {
+    mix-blend-mode: normal;
+    filter: blur(40px);
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    #mouse-spotlight {
+      display: none;
+    }
+  }
+</style>
