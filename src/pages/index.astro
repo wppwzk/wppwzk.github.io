@@ -8,33 +8,42 @@ const posts = (await getCollection('blog'))
     .slice(0, 6);
 ---
 
-<Layout title="首页 | My Technical Blog" description="分享技术心得与开发经验">
+<Layout title="首页 | My Technical Blog" description="分享Android开发技术心得与经验">
 	<section class="py-20 sm:py-32 relative overflow-hidden">
          <div class="text-center relative z-10 animate-fade-in">
-            <div class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 ring-1 ring-inset ring-indigo-600/20 bg-indigo-50/50 dark:bg-indigo-950/30 mb-6 animate-slide-up">
-                <span class="flex h-2 w-2 rounded-full bg-indigo-600 dark:bg-indigo-400 mr-2 animate-pulse"></span>
-                System Online
-            </div>
-
-            <h1 class="text-4xl font-bold font-heading tracking-tight text-zinc-900 dark:text-white sm:text-7xl mb-6">
-                <span class="block">Building the</span>
-                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 animate-gradient-x">
-                    Digital Future
+            <h1 class="text-4xl font-bold font-heading tracking-tight text-zinc-900 dark:text-white sm:text-7xl mb-4">
+                <span class="block">Hello, 我是</span>
+                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 animate-gradient-x">
+                    YBC
                 </span>
             </h1>
 
-            <div class="h-8 mb-8 flex justify-center items-center">
-                 <p class="text-lg text-zinc-600 dark:text-zinc-400 font-mono overflow-hidden whitespace-nowrap border-r-2 border-indigo-500 animate-typing max-w-fit">
-                    > hello_world.exe --init exploring_tech
+            <p class="text-xl text-zinc-600 dark:text-zinc-400 mb-8 max-w-2xl mx-auto">
+                热爱技术，专注<span class="font-semibold text-indigo-600 dark:text-indigo-400">Android</span>领域
+            </p>
+
+            <div class="h-10 mb-10 flex justify-center items-center">
+                 <p id="typing-text" class="text-base text-zinc-600 dark:text-zinc-400 font-mono overflow-hidden whitespace-nowrap border-r-2 border-indigo-500 dark:border-indigo-400 max-w-fit bg-zinc-100/50 dark:bg-zinc-900/50 px-4 py-2 rounded animate-blink">
+                    > ./explore --init tech_innovation
                 </p>
             </div>
             
              <div class="mt-10 flex items-center justify-center gap-x-6 animate-slide-up" style="animation-delay: 200ms;">
-                <a href="/my-blog/blog" class="rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-indigo-500 hover:shadow-indigo-500/25 transition-all hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    Browse Articles
+                <a href="/my-blog/blog" class="group relative rounded-lg bg-indigo-600 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-500 hover:shadow-indigo-500/50 transition-all hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 overflow-hidden">
+                    <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
+                    <span class="relative flex items-center">
+                        浏览文章
+                        <svg class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </span>
                 </a>
-                <a href="https://github.com/username" target="_blank" class="text-sm font-semibold leading-6 text-zinc-900 dark:text-white flex items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-                    GitHub Profile <span aria-hidden="true" class="ml-1">→</span>
+                <a href="https://github.com/username" target="_blank" class="group text-sm font-semibold leading-6 text-zinc-900 dark:text-white flex items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors px-4 py-3 rounded-lg hover:bg-zinc-100/50 dark:hover:bg-zinc-900/50">
+                    <svg class="w-5 h-5 mr-2 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                    </svg>
+                    GitHub
+                    <span aria-hidden="true" class="ml-1 transition-transform group-hover:translate-x-1">→</span>
                 </a>
             </div>
          </div>
@@ -43,11 +52,16 @@ const posts = (await getCollection('blog'))
     <section class="py-12 border-t border-zinc-200/50 dark:border-zinc-800/50 backdrop-blur-sm">
         <div class="flex justify-between items-end mb-10">
             <div>
-                 <h2 class="text-3xl font-bold font-heading tracking-tight text-zinc-900 dark:text-white">Latest Transmissions</h2>
-                 <p class="mt-2 text-zinc-500 dark:text-zinc-400">Recent technical explorations and thoughts.</p>
+                 <h2 class="text-3xl font-bold font-heading tracking-tight text-zinc-900 dark:text-white">
+                    最新<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">文章</span>
+                </h2>
+                 <p class="mt-2 text-zinc-500 dark:text-zinc-400">分享Android开发经验与技术心得</p>
             </div>
-            <a href="/my-blog/blog" class="hidden sm:inline-flex items-center text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors">
-                View Archives <svg class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            <a href="/my-blog/blog" class="hidden sm:inline-flex items-center text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors group">
+                查看全部
+                <svg class="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
             </a>
         </div>
        
@@ -70,9 +84,59 @@ const posts = (await getCollection('blog'))
         </div>
         
         <div class="mt-10 text-center sm:hidden">
-             <a href="/my-blog/blog" class="text-sm font-semibold leading-6 text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
-                View all archives <span aria-hidden="true">→</span>
+             <a href="/my-blog/blog" class="text-sm font-semibold leading-6 text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 group inline-flex items-center">
+                查看全部
+                <svg class="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
             </a>
         </div>
     </section>
+
+    <script>
+        // Typing effect with Android-focused messages
+        const typingTexts = [
+            '> ./gradlew build --stacktrace',
+            '> adb install -r app-debug.apk',
+            '> git commit -m "fix: performance_optimization"',
+            '> ./create_new_feature.sh',
+            '> echo "sharing_knowledge_helps_grow"'
+        ];
+
+        const typingElement = document.getElementById('typing-text');
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100;
+
+        function typeText() {
+            const currentText = typingTexts[textIndex];
+
+            if (isDeleting) {
+                typingElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 50; // Faster deletion
+            } else {
+                typingElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 100 + Math.random() * 50; // Random typing speed for realism
+            }
+
+            if (!isDeleting && charIndex === currentText.length) {
+                // Finished typing, wait before deleting
+                typingSpeed = 2500;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                // Finished deleting, move to next text
+                isDeleting = false;
+                textIndex = (textIndex + 1) % typingTexts.length;
+                typingSpeed = 500;
+            }
+
+            setTimeout(typeText, typingSpeed);
+        }
+
+        // Start typing animation
+        setTimeout(typeText, 1000);
+    </script>
 </Layout>

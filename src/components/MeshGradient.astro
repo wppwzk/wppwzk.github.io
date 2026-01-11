@@ -1,10 +1,19 @@
 ---
 ---
-<canvas id="mesh-gradient" class="fixed inset-0 z-[-2] pointer-events-none"></canvas>
+<canvas id="tech-gradient" class="fixed inset-0 z-[-2] pointer-events-none"></canvas>
 
 <script>
-  function initMeshGradient() {
-    const canvas = document.getElementById('mesh-gradient') as HTMLCanvasElement;
+  interface Orb {
+    x: number;
+    y: number;
+    radius: number;
+    vx: number;
+    vy: number;
+    color: string;
+  }
+
+  function initTechGradient() {
+    const canvas = document.getElementById('tech-gradient') as HTMLCanvasElement;
     if (!canvas) {
       console.error('Canvas not found');
       return;
@@ -21,12 +30,66 @@
     let targetX = 0;
     let targetY = 0;
     let animationId: number;
+    let orbs: Orb[] = [];
+    let particles: { x: number; y: number; vx: number; vy: number; alpha: number; }[] = [];
+
+    // Color palettes for tech feel
+    const darkColors = [
+      'rgba(99, 102, 241, 0.15)',   // indigo-500
+      'rgba(139, 92, 246, 0.12)',   // violet-500
+      'rgba(59, 130, 246, 0.1)',    // blue-500
+      'rgba(14, 165, 233, 0.08)',   // sky-500
+      'rgba(168, 85, 247, 0.1)',    // purple-500
+    ];
+
+    const lightColors = [
+      'rgba(99, 102, 241, 0.08)',   // indigo-500
+      'rgba(139, 92, 246, 0.06)',   // violet-500
+      'rgba(59, 130, 246, 0.05)',   // blue-500
+      'rgba(14, 165, 233, 0.04)',   // sky-500
+    ];
 
     // Resize canvas to fill window
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      initOrbs();
+      initParticles();
     }
+
+    function initOrbs() {
+      orbs = [];
+      const isDark = document.documentElement.classList.contains('dark');
+      const colors = isDark ? darkColors : lightColors;
+      const orbCount = isDark ? 6 : 4;
+
+      for (let i = 0; i < orbCount; i++) {
+        orbs.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: 200 + Math.random() * 300,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          color: colors[i % colors.length]
+        });
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const particleCount = window.innerWidth < 768 ? 50 : 100;
+      
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          alpha: Math.random() * 0.6 + 0.4
+        });
+      }
+    }
+
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
@@ -40,48 +103,155 @@
     // Animate
     function animate() {
       // Smooth mouse following
-      mouseX += (targetX - mouseX) * 0.1;
-      mouseY += (targetY - mouseY) * 0.1;
+      mouseX += (targetX - mouseX) * 0.08;
+      mouseY += (targetY - mouseY) * 0.08;
 
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Create gradient based on mouse position
-      const gradient = ctx.createRadialGradient(
-        mouseX, mouseY, 0,
-        mouseX, mouseY, canvas.width * 0.6
-      );
-
-      // Check if dark mode
       const isDark = document.documentElement.classList.contains('dark');
-      
-      if (isDark) {
-        // Dark mode: VERY VISIBLE Nordic Aurora
-        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.35)');      // sky-400 (ice blue) - MUCH BRIGHTER
-        gradient.addColorStop(0.3, 'rgba(20, 184, 166, 0.25)');    // teal-500 (aurora teal)
-        gradient.addColorStop(0.6, 'rgba(52, 211, 153, 0.18)');    // emerald-400 (mint)
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      } else {
-        // Light mode: VERY VISIBLE Nordic Aurora
-        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.28)');      // sky-400 - MUCH BRIGHTER
-        gradient.addColorStop(0.3, 'rgba(20, 184, 166, 0.20)');    // teal-500
-        gradient.addColorStop(0.6, 'rgba(52, 211, 153, 0.14)');    // emerald-400
-        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      }
 
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Draw flowing orbs
+      orbs.forEach((orb, index) => {
+        // Orb movement
+        orb.x += orb.vx;
+        orb.y += orb.vy;
+
+        // Bounce off edges
+        if (orb.x < -orb.radius) orb.x = canvas.width + orb.radius;
+        if (orb.x > canvas.width + orb.radius) orb.x = -orb.radius;
+        if (orb.y < -orb.radius) orb.y = canvas.height + orb.radius;
+        if (orb.y > canvas.height + orb.radius) orb.y = -orb.radius;
+
+        // Mouse influence - orbs gently follow mouse
+        const dx = mouseX - orb.x;
+        const dy = mouseY - orb.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 400) {
+          orb.x += dx * 0.0008;
+          orb.y += dy * 0.0008;
+        }
+
+        // Draw orb
+        const gradient = ctx.createRadialGradient(
+          orb.x, orb.y, 0,
+          orb.x, orb.y, orb.radius
+        );
+        
+        const baseColor = isDark ? darkColors[index % darkColors.length] : lightColors[index % lightColors.length];
+        
+        gradient.addColorStop(0, baseColor);
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      });
+
+      // Draw particles
+      particles.forEach(particle => {
+        // Calculate distance to mouse for attraction effect
+        const dx = mouseX - particle.x;
+        const dy = mouseY - particle.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        // Mouse attraction - particles are attracted to mouse
+        const attractionRadius = 250;
+        const attractionStrength = 0.02;
+        
+        if (dist < attractionRadius && mouseX > 0 && mouseY > 0) {
+          // Attraction force based on distance
+          const force = (1 - dist / attractionRadius) * attractionStrength;
+          particle.vx += dx * force * 0.05;
+          particle.vy += dy * force * 0.05;
+        }
+
+        // Particle movement with velocity
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+
+        // Apply friction to slow down particles
+        particle.vx *= 0.98;
+        particle.vy *= 0.98;
+
+        // Keep minimum speed for natural floating
+        const speed = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy);
+        if (speed < 0.2) {
+          particle.vx += (Math.random() - 0.5) * 0.1;
+          particle.vy += (Math.random() - 0.5) * 0.1;
+        }
+
+        // Wrap around edges
+        if (particle.x < 0) particle.x = canvas.width;
+        if (particle.x > canvas.width) particle.x = 0;
+        if (particle.y < 0) particle.y = canvas.height;
+        if (particle.y > canvas.height) particle.y = 0;
+
+        // Draw particle
+        const particleColor = isDark ? '147, 197, 253' : '99, 102, 241';
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, isDark ? 2 : 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${particleColor}, ${particle.alpha})`;
+        ctx.fill();
+
+        // Add glow effect to particles
+        if (isDark) {
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${particleColor}, ${particle.alpha * 0.3})`;
+          ctx.fill();
+        }
+      });
+
+      // Draw connecting lines between nearby particles (tech network effect)
+      particles.forEach((p1, i) => {
+        particles.slice(i + 1).forEach(p2 => {
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          
+          if (dist < 120) {
+            const particleColor = isDark ? '147, 197, 253' : '99, 102, 241';
+            const opacity = (1 - dist / 120) * (isDark ? 0.25 : 0.2);
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(${particleColor}, ${opacity})`;
+            ctx.lineWidth = isDark ? 0.8 : 0.6;
+            ctx.stroke();
+          }
+        });
+      });
+
+      // Mouse glow effect
+      if (mouseX > 0 || mouseY > 0) {
+        const glowGradient = ctx.createRadialGradient(
+          mouseX, mouseY, 0,
+          mouseX, mouseY, 150
+        );
+        
+        if (isDark) {
+          glowGradient.addColorStop(0, 'rgba(99, 102, 241, 0.08)');
+          glowGradient.addColorStop(0.5, 'rgba(139, 92, 246, 0.04)');
+          glowGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        } else {
+          glowGradient.addColorStop(0, 'rgba(99, 102, 241, 0.05)');
+          glowGradient.addColorStop(0.5, 'rgba(59, 130, 246, 0.02)');
+          glowGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        }
+
+        ctx.fillStyle = glowGradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
 
       animationId = requestAnimationFrame(animate);
     }
 
-    // Log to confirm it's working
-    console.log('Mesh gradient initialized at', new Date().toLocaleTimeString());
+    console.log('Tech gradient initialized at', new Date().toLocaleTimeString());
     animate();
 
     // Handle theme changes
     const observer = new MutationObserver(() => {
-      // Animation will pick up the change automatically
+      initOrbs();
     });
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
@@ -95,19 +265,19 @@
   }
 
   // Initialize on first load
-  initMeshGradient();
+  initTechGradient();
 
   // Reinitialize on View Transitions navigation
   document.addEventListener('astro:page-load', () => {
-    console.log('Page loaded, reinitializing mesh gradient');
-    initMeshGradient();
+    console.log('Page loaded, reinitializing tech gradient');
+    initTechGradient();
   });
 </script>
 
 <style>
-  #mesh-gradient {
+  #tech-gradient {
     opacity: 0;
-    animation: fadeInCanvas 0.5s ease-in forwards;
+    animation: fadeInCanvas 1s ease-out forwards;
   }
 
   @keyframes fadeInCanvas {
@@ -117,7 +287,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #mesh-gradient {
+    #tech-gradient {
       display: none;
     }
   }
