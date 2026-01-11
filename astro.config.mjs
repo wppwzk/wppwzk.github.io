@@ -6,8 +6,8 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://username.github.io', // Placeholder, user will update
-  base: '/my-blog', // Assuming typical GitHub Pages repo name, user might need to change
+  site: 'https://wppwzk.github.io',
+  base: '/',
   integrations: [
     mdx(),
     // sitemap(),
